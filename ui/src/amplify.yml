@@ -4,7 +4,7 @@ frontend:
     preBuild:
       commands:
         - npm ci
-        - npx amplify pull --yes --env dev
+        - npx amplify pull --yes --appId arn:aws:amplify:us-east-2:919952350587:apps/dv76bjpnrsqt4 --envName dev
     build:
       commands:
         - npm run build
