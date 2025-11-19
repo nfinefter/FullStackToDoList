@@ -22,11 +22,15 @@ const darkTheme = createTheme({
 export default function App() {
   const [tasks, setTasks] = useState([]);
 
-  const fetchTasks = async (user) => {
+  const fetchTasks = async () => {
     try {
       const { data } = await axios.get(API_URL);
 
-      setTasks(data);
+      const sorted = Array.isArray(data)
+        ? data.slice().sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+        : [];
+
+      setTasks(sorted);
     } catch (err) {
       console.log(err);
     }
@@ -45,7 +49,7 @@ export default function App() {
           {/* <h3>Welcome, {user?.username}</h3> */}
           <button onClick={signOut}>Sign out</button>
 
-          <AddTaskForm fetchTasks={fetchTasks(user)} />
+          <AddTaskForm fetchTasks={fetchTasks} />
           {tasks.map((task) => (
             <Task task={task} key={task.id} fetchTasks={fetchTasks} />
           ))}

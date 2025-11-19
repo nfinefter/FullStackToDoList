@@ -22,7 +22,8 @@ export const fetchTasks = async () => {
 
   const response = await docClient.send(command);
 
-  response.Items.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+  // Sort newest-first by createdAt (protect against missing values)
+  response.Items.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
 
   return response;
 };
