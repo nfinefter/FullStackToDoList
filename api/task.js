@@ -14,11 +14,15 @@ const docClient = DynamoDBDocumentClient.from(client);
 export const fetchTasks = async () => {
   const command = new ScanCommand({
     ExpressionAttributeNames: { "#name": "name" },
-    ProjectionExpression: "id, #name, completed",
+    ProjectionExpression: "id, #name, completed, createdAt",
     TableName: "Tasks",
   });
 
+  //TODO: Sort
+
   const response = await docClient.send(command);
+
+   response.Items.sort((a, b) => a.id.localeCompare(b.id));
 
   return response;
 };
@@ -31,6 +35,7 @@ export const createTasks = async ({ name, completed }) => {
       id: uuid,
       name,
       completed,
+      createdAt: new Date().toISOString(),
     },
   });
 
