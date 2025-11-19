@@ -22,7 +22,7 @@ export const fetchTasks = async () => {
 
   const response = await docClient.send(command);
 
-   response.Items.sort((a, b) => a.id.localeCompare(b.id));
+  response.Items.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
   return response;
 };
