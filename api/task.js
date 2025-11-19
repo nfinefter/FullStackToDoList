@@ -30,19 +30,24 @@ export const fetchTasks = async () => {
 
 export const createTasks = async ({ name, completed }) => {
   const uuid = crypto.randomUUID();
+  const item = {
+    id: uuid,
+    name,
+    completed,
+    createdAt: new Date().toISOString(),
+  };
+
   const command = new PutCommand({
     TableName: "Tasks",
-    Item: {
-      id: uuid,
-      name,
-      completed,
-      createdAt: new Date().toISOString(),
-    },
+    Item: item,
   });
 
   const response = await docClient.send(command);
 
-  return response;
+  // Log for debugging and return the created item so callers can verify createdAt
+  console.log("Created task:", item, "PutResponse:", response);
+
+  return item;
 };
 
 export const updateTasks = async ({ id, name, completed }) => {
