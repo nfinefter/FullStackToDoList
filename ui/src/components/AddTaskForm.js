@@ -5,6 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 import { API_URL } from "../utils";
 
+//Adds Task by getting name from user, then updating the list of task, then erase user input
 export const AddTaskForm = ({ fetchTasks }) => {
   const [newTask, setNewTask] = useState("");
 
@@ -14,6 +15,7 @@ export const AddTaskForm = ({ fetchTasks }) => {
         name: newTask,
         completed: false,
       });
+
 
       await fetchTasks();
 
@@ -30,6 +32,7 @@ export const AddTaskForm = ({ fetchTasks }) => {
       </Typography>
       <div className="addTaskForm">
         <TextField
+        // Input field for new task
           size="small"
           label="Task"
           variant="outlined"

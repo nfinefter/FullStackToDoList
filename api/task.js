@@ -11,6 +11,8 @@ import crypto from "crypto";
 const client = new DynamoDBClient({ region: "us-east-2" });
 const docClient = DynamoDBDocumentClient.from(client);
 
+
+//Fetches tasks from DynamoDB and sorts them by createdAt date
 export const fetchTasks = async () => {
   const command = new ScanCommand({
     ExpressionAttributeNames: { "#name": "name" },
@@ -18,16 +20,17 @@ export const fetchTasks = async () => {
     TableName: "Tasks",
   });
 
-  //TODO: Sort
 
   const response = await docClient.send(command);
 
-  // Sort newest-first by createdAt (protect against missing values)
+  //Sort
   response.Items.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
 
   return response;
 };
 
+
+//Creates a new task in DynamoDB
 export const createTasks = async ({ name, completed }) => {
   const uuid = crypto.randomUUID();
   const item = {
@@ -50,6 +53,7 @@ export const createTasks = async ({ name, completed }) => {
   return item;
 };
 
+//Updates an existing task in DynamoDB
 export const updateTasks = async ({ id, name, completed }) => {
   const command = new UpdateCommand({
     TableName: "Tasks",
@@ -72,6 +76,7 @@ export const updateTasks = async ({ id, name, completed }) => {
   return response;
 };
 
+//Deletes a task from DynamoDB
 export const deleteTasks = async (id) => {
   const command = new DeleteCommand({
     TableName: "Tasks",

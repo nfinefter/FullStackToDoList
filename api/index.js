@@ -12,10 +12,13 @@ if (process.env.DEVELOPMENT) {
   app.use(cors());
 }
 
+// Root endpoint
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+
+// Fetch tasks endpoint
 app.get("/task", async (req, res) => {
   try {
     const tasks = await fetchTasks();
@@ -26,6 +29,8 @@ app.get("/task", async (req, res) => {
   }
 });
 
+
+// Create task endpoint
 app.post("/task", async (req, res) => {
   try {
     const task = req.body;
@@ -38,6 +43,7 @@ app.post("/task", async (req, res) => {
   }
 });
 
+// Update task endpoint
 app.put("/task", async (req, res) => {
   try {
     const task = req.body;
@@ -50,6 +56,7 @@ app.put("/task", async (req, res) => {
   }
 });
 
+// Delete task endpoint
 app.delete("/task/:id", async (req, res) => {
   try {
     const { id } = req.params;

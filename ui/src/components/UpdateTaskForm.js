@@ -4,6 +4,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import axios from "axios";
 import { API_URL } from "../utils";
 
+//Update Task Form component that allows users to edit the name of a task
 export const UpdateTaskForm = ({
   fetchTasks,
   isDialogOpen,
@@ -13,6 +14,7 @@ export const UpdateTaskForm = ({
   const { id, completed } = task;
   const [taskName, setTaskName] = useState("");
 
+  //Handles updating the task name
   const handleUpdateTaskName = async () => {
     try {
       await axios.put(API_URL, {
@@ -20,7 +22,7 @@ export const UpdateTaskForm = ({
         name: taskName,
         completed,
       });
-
+      // Refresh the task list after updating the task name
       await fetchTasks();
 
       setTaskName("");
@@ -29,6 +31,7 @@ export const UpdateTaskForm = ({
     }
   };
 
+  // Renders the dialog for updating the task name
   return (
     <Dialog open={isDialogOpen}>
       <DialogTitle>Edit Task</DialogTitle>

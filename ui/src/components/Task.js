@@ -7,11 +7,13 @@ import classnames from "classnames";
 import axios from "axios";
 import { API_URL } from "../utils";
 
+//Task component that displays individual task and handles updates and deletions
 export const Task = ({ task, fetchTasks }) => {
   const { id, name, completed } = task;
   const [isComplete, setIsComplete] = useState(completed);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  //Updates task completion status
   const handleUpdateTaskCompletion = async () => {
     try {
       await axios.put(API_URL, {
@@ -25,6 +27,7 @@ export const Task = ({ task, fetchTasks }) => {
     }
   };
 
+  //Deletes task
   const handleDeleteTask = async () => {
     try {
       await axios.delete(`${API_URL}/${task.id}`);

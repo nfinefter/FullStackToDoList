@@ -22,6 +22,7 @@ const darkTheme = createTheme({
 export default function App() {
   const [tasks, setTasks] = useState([]);
 
+    //Gets the tasks sorted by date createdAt
   const fetchTasks = async () => {
     try {
       const { data } = await axios.get(API_URL);
@@ -35,12 +36,14 @@ export default function App() {
       console.log(err);
     }
   };
-
+  
+  //fetches tasks
   useEffect(() => {
     fetchTasks();
   }, []);
 
   return (
+    /* Renders the tasks*/
   <Authenticator>
     {({ signOut, user }) => (
       <ThemeProvider theme={darkTheme}>
@@ -48,8 +51,8 @@ export default function App() {
         <div style={{ padding: "1rem" }}>
           {/* <h3>Welcome, {user?.username}</h3> */}
           <button onClick={signOut}>Sign out</button>
-
           <AddTaskForm fetchTasks={fetchTasks} />
+          
           {tasks.map((task) => (
             <Task task={task} key={task.id} fetchTasks={fetchTasks} />
           ))}
